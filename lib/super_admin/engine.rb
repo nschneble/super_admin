@@ -26,7 +26,7 @@ module SuperAdmin
       end
 
       ActiveSupport.on_load(:action_controller) do
-        helper ::SuperAdmin::RouteHelper
+        helper ::SuperAdmin::RouteHelper if respond_to?(:helper)
       end
 
       config.to_prepare do
