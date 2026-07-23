@@ -41,9 +41,11 @@ module SuperAdmin
     end
 
     initializer "super_admin.rack_attack", after: :load_config_initializers do
-      # Load Rack::Attack configuration for SuperAdmin endpoints
+      # Load Rack::Attack configuration for SuperAdmin endpoints. Rack::Attack
+      # being defined already means the host app required it; no need to
+      # (and this used to try `require "rack-attack"`, a nonexistent path
+      # that always raised LoadError the moment a host app used Rack::Attack).
       if defined?(Rack::Attack)
-        require "rack-attack"
         config_file = root.join("config/initializers/rack_attack.rb")
         load(config_file) if config_file.exist?
       end
